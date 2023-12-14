@@ -1,0 +1,23 @@
+{{!-- This is the dashboard view --}}
+<div class="container mx-auto p-4">
+  <h1 class="text-3xl font-bold underline">Your Dashboard</h1>
+
+  {{!-- Toggle button for showing the new post form --}}
+  <button id="toggle-post-form" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded my-4">
+    + New Post
+  </button>
+
+  {{!-- New post form, initially hidden --}}
+  <div id="new-post-form" class="hidden">
+    <input id="new-post-title" type="text" placeholder="Title" class="shadow border rounded py-2 px-3 mb-4 w-full" required />
+    <textarea id="new-post-content" placeholder="Content" class="shadow border rounded py-2 px-3 mb-4 w-full" required></textarea>
+    <button id="create-post" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Create
+    </button>
+  </div>
+
+  {{!-- Loop through each post and use the blog-post partial --}}
+  {{#each posts as |post|}}
+    {{> blog-post post=post}}
+  {{/each}}
+</div>

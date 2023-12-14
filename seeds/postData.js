@@ -4,6 +4,7 @@ const postData = [
     {
         title: 'Test Post 1',
         content: 'This is the first test post',
+        created_at: new Date(),
         user_id: 1
     },
 ];

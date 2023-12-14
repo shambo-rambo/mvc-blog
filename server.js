@@ -1,15 +1,18 @@
-require('dotenv').config();
-
 const express = require("express");
-const path = require("path");
+const session = require("express-session");
+
+const routes = require("./controllers");
+
+const sequelize = require("./config/connection");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
 const exphbs = require("express-handlebars");
-const routes = require("./controllers");
-const sequelize = require("./config/connection");
-const session = require("express-session");
-const SequelizeStore = require("connect-session-sequelize")(session.Store);
-const helpers = require("./utils/helpers");
-const hbs = exphbs.create({ helpers });
+const path = require("path");
+
+const hbs = exphbs.create({
+  defaultLayout: 'main',
+  layoutsDir: path.join(__dirname, 'views/layouts')
+});
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -25,14 +28,14 @@ const sess = {
   };
 
 app.use(session(sess));
-app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set up Handlebars.js engine with custom helpers
-app.engine("handlebars", hbs.engine);
-app.set("view engine", "handlebars");
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
 
 app.use(routes);
 

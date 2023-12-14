@@ -6,6 +6,7 @@ Post.init(
     {
         title: DataTypes.STRING,
         content: DataTypes.STRING,
+        created_at: DataTypes.DATE,
     },
     {
         sequelize

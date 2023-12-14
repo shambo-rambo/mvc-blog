@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "seeds": "node seeds/seed.js",
+    "build-css": "postcss public/css/styles.css -o public/dist/styles.css"
   },
   "keywords": [],
   "author": "",
@@ -24,9 +26,8 @@
     "sequelize": "^6.35.1"
   },
   "devDependencies": {
-    "tailwindcss": "^3.3.6"
-  },
-  "scripts": {
-    "build-css": "postcss public/css/styles.css -o public/dist/styles.css"
-  }  
+    "tailwindcss": "^3.3.6",
+    "nodemon": "^3.0.1"
+
+  }
 }

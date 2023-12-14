@@ -29,10 +29,10 @@ router.get('/', (req, res) => {
 // Route to render the login page
 router.get('/login', (req, res) => {
     if (req.session.loggedIn) {
-        res.redirect('/');
-        return;
+        res.redirect('/dashboard');
+    } else {
+        res.render('login');
     }
-    res.render('login');
 });
 
 // Route to render the signup page

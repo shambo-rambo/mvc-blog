@@ -1,0 +1,10 @@
+{{!-- This is the comments partial --}}
+<div class="mt-4">
+  <h3 class="text-lg font-bold">Comments</h3>
+  {{#each comments as |comment|}}
+    <div class="border-t border-gray-200 mt-2 pt-2">
+      <p>{{comment.content}}</p>
+      <span class="text-sm text-gray-600">— {{comment.author}}, {{comment.date}}</span>
+    </div>
+  {{/each}}
+</div>
