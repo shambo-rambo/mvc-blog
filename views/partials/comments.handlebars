@@ -1,10 +1,13 @@
-{{!-- This is the comments partial --}}
-<div class="mt-4">
-  <h3 class="text-lg font-bold">Comments</h3>
-  {{#each comments as |comment|}}
-    <div class="border-t border-gray-200 mt-2 pt-2">
-      <p>{{comment.content}}</p>
-      <span class="text-sm text-gray-600">— {{comment.author}}, {{comment.date}}</span>
-    </div>
-  {{/each}}
-</div>
+{{!-- {{#each comments as |comment|}}
+  <div class="comment">
+    <p>{{comment.content}}</p>
+    <span>Posted by {{comment.User.username}}</span>
+  </div>
+{{/each}} --}}
+
+{{#each this}}
+  <div class="comment">
+    <p>{{this.content}}</p>
+    <span>Posted by {{this.User.username}}</span>
+  </div>
+{{/each}}

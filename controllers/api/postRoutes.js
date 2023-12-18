@@ -14,6 +14,15 @@ router.get('/', (req, res) => {
                 model: User,
                 attributes: ['username']
             },
+            {
+                model: Comment,
+                attributes: ['id', 'comment_text', 'user_id', 'created_at'],
+                order: [['created_at', 'DESC']],
+                include: {
+                    model: User,
+                    attributes: ['username'],
+                }
+            }
         ]
     })
         .then(dbPostData => res.json(dbPostData))
@@ -34,6 +43,15 @@ router.get('/:id', (req, res) => {
             {
                 model: User,
                 attributes: ['username']
+            },
+            {
+                model: Comment,
+                attributes: ['id', 'comment_text', 'user_id', 'created_at'],
+                order: [['created_at', 'DESC']],
+                include: {
+                    model: User,
+                    attributes: ['username'],
+                }
             }
         ]
     })
@@ -51,17 +69,18 @@ router.get('/:id', (req, res) => {
 });
 
 // POST /api/posts
-router.post('/', withAuth, (req, res) => {
-    Post.create({
-        title: req.body.title,
-        content: req.body.content,
-        user_id: req.session.user_id
-    })
-        .then(dbPostData => res.json(dbPostData))
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
+router.post('/', withAuth, async (req, res) => {
+    try {
+        const newPost = await Post.create({
+            ...req.body,
+            user_id: req.session.user_id,
         });
+
+        res.status(200).json(newPost);
+    } catch (err) {
+        console.error('Error occurred: ', err);
+        res.status(500).json(err);
+    }
 });
 
 // PUT /api/posts/1

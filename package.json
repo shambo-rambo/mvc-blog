@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "seeds": "node seeds/seed.js",
-    "build-css": "postcss public/css/styles.css -o public/dist/styles.css"
+    "seeds": "node seeds/seed.js"
   },
   "keywords": [],
   "author": "",
@@ -27,7 +26,8 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.3.6",
-    "nodemon": "^3.0.1"
-
+    "nodemon": "^3.0.1",
+    "build-css": "postcss css/tailwind.css -o public/css/tailwind.css",
+    "watch-css": "postcss css/tailwind.css -o public/css/tailwind.css --watch"
   }
 }

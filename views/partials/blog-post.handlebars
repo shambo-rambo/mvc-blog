@@ -1,10 +1,15 @@
-{{!-- This is the blog post partial --}}
 <div class="mb-4 p-4 bg-white rounded shadow">
   <h2 class="text-xl font-bold">{{post.title}}</h2>
   <p>{{post.content}}</p>
-  <div class="mt-4">
-    {{#if post.comments}}
-      {{> comments comments=post.comments}}
+  <span>Posted by {{post.User.username}}</span> <br />
+  <button class="toggle-comment-form-btn">Add Comment</button> 
+  <div class="comment-form hidden">
+    <textarea id="comment-content-{{post.id}}"></textarea>
+    <button class="post-comment-btn" data-post-id="{{post.id}}">Post Comment</button>
+  </div>
+  <div id="comments-section-{{post.id}}" class="comments-section">
+    {{#if post.Comments}}
+      {{> comments comments=post.Comments}}
     {{/if}}
   </div>
 </div>
