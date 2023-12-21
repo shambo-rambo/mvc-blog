@@ -1,3 +1,5 @@
+// controllers/api/commentRoutes.js
+
 const express = require('express');
 const router = express.Router();
 const { Post, User, Comment } = require('../../models');
@@ -7,7 +9,7 @@ const withAuth = require('../../utils/auth');
 router.get('/', (req, res) => {
     console.log('======================');
     Comment.findAll({
-        attributes: ['id', 'comment_text', 'created_at'],
+        attributes: ['id', 'content', 'created_at'],
         order: [['created_at', 'DESC']],
         include: [
             {
@@ -23,31 +25,21 @@ router.get('/', (req, res) => {
         });
 });
 
-// Create a new post
-// router.post('/', withAuth, async (req, res) => {
-//     try {
-//         const newComment = await Comment.create({
-//             ...req.body,
-//             user_id: req.session.user_id,
-//         });
-
-//         res.status(200).json(newComment);
-//     } catch (err) {
-//         console.error('Error occurred: ', err);
-//         res.status(500).json(err);
-//     }
-// });
-
 router.post('/', withAuth, async (req, res) => {
     try {
       const newComment = await Comment.create({
         content: req.body.content,
-        postId: req.body.postId,
-        userId: req.session.userId, // Assuming the user ID is stored in the session
+        post_id: req.body.post_id,
+        user_id: req.session.user_id,
       });
   
       const commentWithUser = await Comment.findByPk(newComment.id, {
-        include: User, // Include the associated User
+        include: [
+          {
+            model: User,
+            attributes: ['username'],
+          },
+        ],
       });
   
       res.json(commentWithUser);

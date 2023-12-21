@@ -11,7 +11,12 @@ const path = require("path");
 
 const hbs = exphbs.create({
   defaultLayout: 'main',
-  layoutsDir: path.join(__dirname, 'views/layouts')
+  layoutsDir: path.join(__dirname, 'views/layouts'),
+  helpers: {
+    userCanEdit: (postUserId, userId) => {
+      return postUserId === userId;
+    }
+  }
 });
 
 const app = express();

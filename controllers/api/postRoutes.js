@@ -1,3 +1,5 @@
+// Controllers/api/postRoutes.js
+
 const express = require('express');
 const router = express.Router();
 const { Post, User, Comment } = require('../../models');
@@ -16,7 +18,7 @@ router.get('/', (req, res) => {
             },
             {
                 model: Comment,
-                attributes: ['id', 'comment_text', 'user_id', 'created_at'],
+                attributes: ['id', 'content', 'user_id', 'created_at'],
                 order: [['created_at', 'DESC']],
                 include: {
                     model: User,
@@ -46,7 +48,7 @@ router.get('/:id', (req, res) => {
             },
             {
                 model: Comment,
-                attributes: ['id', 'comment_text', 'user_id', 'created_at'],
+                attributes: ['id', 'content', 'user_id', 'created_at'],
                 order: [['created_at', 'DESC']],
                 include: {
                     model: User,
@@ -60,7 +62,12 @@ router.get('/:id', (req, res) => {
                 res.status(404).json({ message: 'No post found with this id' });
                 return;
             }
+            const post = dbPostData.get({ plain: true });
             res.json(dbPostData);
+
+            console.log(post);
+            res.render('single-post', { post });
+
         })
         .catch(err => {
             console.log(err);
@@ -100,6 +107,9 @@ router.put('/:id', withAuth, (req, res) => {
                 res.status(404).json({ message: 'No post found with this id' });
                 return;
             }
+            
+            console.log(post);
+
             res.json(dbPostData);
         })
         .catch(err => {
@@ -109,23 +119,28 @@ router.put('/:id', withAuth, (req, res) => {
 });
 
 // DELETE /api/posts/1
-router.delete('/:id', withAuth, (req, res) => {
-    Post.destroy({
-        where: {
-            id: req.params.id
+router.delete('/:id', withAuth, async (req, res) => {
+    try {
+        const post = await Post.findByPk(req.params.id);
+        if (!post) {
+            res.status(404).json({ message: 'No post found with this id' });
+            return;
         }
-    })
-        .then(dbPostData => {
-            if (!dbPostData) {
-                res.status(404).json({ message: 'No post found with this id' });
-                return;
-            }
-            res.json(dbPostData);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
+
+        // Check if the logged-in user is the post owner
+        if (post.user_id !== req.session.user_id) {
+            // Assuming req.session.user_id is the ID of the logged-in user
+            res.status(403).json({ message: 'You can only delete your own posts' });
+            return;
+        }
+
+        await post.destroy();
+        res.json({ message: 'Post deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to delete post' });
+    }
 });
+
 
 module.exports = router;

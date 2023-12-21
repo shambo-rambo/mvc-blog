@@ -6,27 +6,51 @@
         <div class="mb-4">
           <h1 class="text-3xl font-bold text-center">Sign Up</h1>
         </div>
-        <form action="/signup" method="POST">
+        <form action="/signup" id="signup-form" method="POST">
           <div class="mb-4">
+            {{!-- first name --}}
+            <label class="block text-grey-darker text-sm font-bold mb-2" for="first_name">
+              First Name
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="first_name" type="text" placeholder="First Name" name="first_name" required>
+          </div>
+          <div class="mb-4">
+            {{!-- last name --}}
+            <label class="block text-grey-darker text-sm font-bold mb-2" for="last_name">
+              Last Name
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="last_name" type="text" placeholder="Last Name" name="last_name" required>
+          </div>
+          <div class="mb-4">
+            {{!-- email --}}
+            <label class="block text-grey-darker text-sm font-bold mb-2" for="email">
+              Email
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="email" type="email" placeholder="Email" name="email" required>
+          </div>
+          <div class="mb-4">
+            {{!-- username --}}
             <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
               Username
             </label>
             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username" type="text" placeholder="Username" name="username" required>
           </div>
           <div class="mb-6">
+            {{!-- password --}}
             <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
               Password
             </label>
             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3" id="password" type="password" placeholder="********" name="password" required>
           </div>
           <div class="mb-6">
+            {{!-- confirm password --}}
             <label class="block text-grey-darker text-sm font-bold mb-2" for="password-confirm">
               Confirm Password
             </label>
             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3" id="password-confirm" type="password" placeholder="********" name="passwordConfirm" required>
           </div>
           <div class="flex items-center justify-between">
-            <button class="bg-blue-500 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" type="submit">
+            <button class="bg-blue-500 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" id="signup-btn" type="submit">
               Register
             </button>
             <a class="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" href="/login">
@@ -38,3 +62,5 @@
     </div>
   </div>
 </div>
+
+<script src="/js/signup.js"></script>

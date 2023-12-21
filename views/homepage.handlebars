@@ -2,4 +2,13 @@
 <div class="container mx-auto">
     <h1 class="text-3xl font-bold underline">Welcome to the Homepage!</h1>
     <p>This is a simple homepage view for your.</p>
+    <div>
+  {{#each posts as |post|}}
+    {{> blog-post post=post}}
+  {{/each}}
 </div>
+</div>
+
+
+<script src="/js/post.js"></script>
+<script src="/js/comment.js"></script>

@@ -1,15 +1,32 @@
-<div class="mb-4 p-4 bg-white rounded shadow">
-  <h2 class="text-xl font-bold">{{post.title}}</h2>
-  <p>{{post.content}}</p>
-  <span>Posted by {{post.User.username}}</span> <br />
-  <button class="toggle-comment-form-btn">Add Comment</button> 
-  <div class="comment-form hidden">
-    <textarea id="comment-content-{{post.id}}"></textarea>
-    <button class="post-comment-btn" data-post-id="{{post.id}}">Post Comment</button>
+{{!-- views/partials/blog-post.handlebars --}}
+<div class="mb-8 p-4 bg-white rounded-lg shadow-lg">
+  <h2 class="text-2xl font-bold mb-2">{{post.title}}</h2>
+  <p class="mb-4">{{post.content}}</p>
+  <span class="text-sm text-gray-600">Posted by {{post.User.username}}</span> <br />
+
+  {{!-- Delete post button, assuming userCanEdit checks for ownership --}}
+  {{#if (userCanEdit post.user_id)}}
+    <button class="delete-post-btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4" data-post-id="{{post.id}}">
+      Delete
+    </button>
+  {{/if}}
+
+  <button class="toggle-comment-form-btn mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" data-post-id="{{post.id}}">Add Comment</button>
+
+  <div class="comment-form hidden mt-4">
+    <textarea id="comment-content-{{post.id}}" class="shadow border rounded py-2 px-3 w-full mb-2"></textarea>
+    <button class="post-comment-btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" data-post-id="{{post.id}}">Post Comment</button>
   </div>
-  <div id="comments-section-{{post.id}}" class="comments-section">
+
+  <div id="comments-section-{{post.id}}" class="comments-section mt-4">
     {{#if post.Comments}}
-      {{> comments comments=post.Comments}}
+      {{#each post.Comments}}
+        <div class="comment mb-2 p-2 bg-gray-100 rounded">
+          <p class="mb-1">{{this.content}}</p>
+          <span class="text-sm text-gray-600">Commented by {{this.User.username}}</span> <br />
+          <span class="text-xs text-gray-500"><small>{{this.createdAt}}</small></span>
+        </div>
+      {{/each}}
     {{/if}}
   </div>
 </div>

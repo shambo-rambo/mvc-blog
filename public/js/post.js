@@ -58,3 +58,27 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('Create post button not found');
   }
 });
+
+  document.body.addEventListener('click', function(event) {
+    if (event.target.matches('.delete-post-btn')) {
+      const postId = event.target.dataset.postId;
+
+      fetch(`/api/posts/${postId}`, {
+        method: 'DELETE',
+        // Add headers if necessary, e.g., for authentication
+      })
+      .then(response => {
+        if (response.ok) {
+          // Remove the post element from the DOM
+          const postElement = document.querySelector(`#post-${postId}`);
+          if (postElement) postElement.remove();
+        } else {
+          throw new Error('Failed to delete post');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to delete post. Error: ' + error.message);
+      });
+    }
+});

@@ -1,13 +1,23 @@
-{{!-- {{#each comments as |comment|}}
-  <div class="comment">
-    <p>{{comment.content}}</p>
-    <span>Posted by {{comment.User.username}}</span>
-  </div>
-{{/each}} --}}
+{{!-- views/partials/comments.handlebars --}}
+<div class="comments-section mt-4">
+  {{#if comments}}
+    <h2 class="text-lg font-semibold mb-2">Comments</h2>
+    {{#each comments}}
+      <div class="comment mb-3 p-2 bg-gray-100 rounded">
+        <!-- Adjusted to display user_id instead of username -->
+        <h3 class="font-semibold">User ID: {{this.user_id}}</h3>
+        <p>{{this.content}}</p>
+        <p><small class="text-gray-600">{{format_date this.createdAt}}</small></p>
+      </div>
+    {{/each}}
+  {{else}}
+    <p>No comments yet.</p>
+  {{/if}}
 
-{{#each this}}
-  <div class="comment">
-    <p>{{this.content}}</p>
-    <span>Posted by {{this.User.username}}</span>
-  </div>
-{{/each}}
+  <form action="/api/comments" method="POST" class="mt-4">
+    <label for="new-comment-{{../post.id}}" class="block text-sm font-semibold mb-1">Add a comment:</label>
+    <textarea id="new-comment-{{../post.id}}" name="content" class="w-full rounded border p-2 mb-2"></textarea>
+    <input type="hidden" name="post_id" value="{{../post.id}}">
+    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+  </form>
+</div>

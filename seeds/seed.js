@@ -14,7 +14,7 @@ const seedAll = async () => {
         await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
 
         // Sync database
-        await sequelize.sync({ force: true });
+        await sequelize.sync({ force: false });
         console.log('\n----- DATABASE SYNCED -----\n');
 
         // Seed data

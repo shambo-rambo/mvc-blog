@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { User, Post, Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
+
 // GET /api/users
 router.get('/', (req, res) => {
     // Access our User model and run .findAll() method
@@ -26,7 +27,7 @@ router.get('/:id', (req, res) => {
             },
             {
                 model: Comment,
-                attributes: ['id', 'comment_text', 'created_at'],
+                attributes: ['id', 'content', 'created_at'],
                 include: {
                     model: Post,
                     attributes: ['title']
@@ -47,8 +48,12 @@ router.get('/:id', (req, res) => {
         });
 });
 // POST /api/users
+// POST /api/users
 router.post('/', (req, res) => {
     User.create({
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
         username: req.body.username,
         password: req.body.password
     })
@@ -61,6 +66,9 @@ router.post('/', (req, res) => {
             res.json(dbUserData);
         });
     })
+    .catch(err => {
+        res.status(500).json(err);
+    });
 });
 // POST /api/users/login
 router.post('/login', (req, res) => {
@@ -131,4 +139,21 @@ router.delete('/:id', withAuth, (req, res) => {
         res.status(500).json(err);
     });
 });
+
+// Sign up
+router.post('/signup', async (req, res) => {
+    try {
+        const userData = await User.create(req.body);
+
+        req.session.save(() => {
+            req.session.user_id = userData.id;
+            req.session.logged_in = true;
+
+            res.status(200).json(userData);
+        });
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
+
 module.exports = router;
